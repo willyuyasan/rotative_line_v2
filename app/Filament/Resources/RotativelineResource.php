@@ -2,6 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
+use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Get;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
@@ -202,6 +210,38 @@ class RotativelineResource extends Resource
                         ->suffix('$')
                         ->grow(false),
 
+                        
+                    Actions::make([
+                        Action::make('proyected_value')
+                        ->color('info')
+                        ->icon('heroicon-m-pencil-square')
+                        ->form([
+                            DatePicker::make('disbursement_date_proy')
+                                ->label('Fecha proyectada')
+                                ->afterOrEqual('tomorrow')
+                                ->grow(false)
+                                ->live(onBlur: true),
+
+                            Placeholder::make('valor_proyectado')
+                                ->content(function (Get $get, Rotativeline $record): string {
+
+                                        $disbursement_date_proy = $get('disbursement_date_proy');
+                                        $created_at = $record->created_at;
+
+                                        if(empty($disbursement_date_proy)){
+                                            $disbursement_date_proy = date("Y/m/d");
+                                            $disbursement_date_proy = $created_at;
+                                        }
+                                        return $disbursement_date_proy;
+                                    })
+                        ])
+                        ->modalCancelActionLabel('Salir')
+                        ->modalSubmitActionLabel('Proyectar')
+                        ->requiresConfirmation()
+                        ->modalHeading('Delete post')
+                        ->modalDescription('Are you sure you\'d like to delete this post? This cannot be undone.')
+                        ->modalSubmitActionLabel('Yes, delete it')
+                    ])
                 ])
                 ->columns(6),
 
@@ -375,6 +415,14 @@ class RotativelineResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 //Tables\Actions\EditAction::make(),
+
+                Tables\Actions\Action::make('Proyección deuda')
+                ->icon('heroicon-o-rectangle-stack')
+                ->form([
+                    TextInput::make('name'),
+                    TextInput::make('email'),
+                    ]),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

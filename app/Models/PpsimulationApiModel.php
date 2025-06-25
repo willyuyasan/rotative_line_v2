@@ -18,6 +18,8 @@ class PpsimulationApiModel extends Model
     protected $listeners = ['refreshPpsimulationApiModel' => '$update'];
 
     protected static string $task_id = 'abc';
+    //public string $host = 'http://192.168.1.15:8000';
+    public string $host = 'https://payment-plans.klym.com';
 
     public static function taskId(string $task_id): Builder
     {
@@ -40,6 +42,8 @@ class PpsimulationApiModel extends Model
 
     public function getApiData($task_id) {
 
+        $host = $this->host;
+
         $response = Http::withHeaders([
             'Accept'=>'application/json',
             'Authorization'=>'Bearer william.uyasan',
@@ -48,7 +52,7 @@ class PpsimulationApiModel extends Model
         ->withQueryParameters([
             'task_id' => $task_id
         ])
-        ->post('http://192.168.1.15:8000/rotative_line/payment_plan_simulator_callback/', []);
+        ->post($host.'/rotative_line/payment_plan_simulator_callback/', []);
 
         $res = $response->json();
 

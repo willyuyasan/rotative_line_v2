@@ -43,6 +43,8 @@ class Ppsimulation extends Page implements HasTable, HasForms
 
     protected $listeners = ['refreshPpsimulationApiModel' => '$refresh'];
 
+    //public string $host = 'http://192.168.1.15:8000';
+    public string $host = 'https://payment-plans.klym.com';
     public ?array $data = [];
     public ?array $response = [];
 
@@ -207,13 +209,15 @@ class Ppsimulation extends Page implements HasTable, HasForms
     //}
 
     private function requestPpsimulationApi(){
+
+        $host = $this->host;
         
         $response = Http::withHeaders([
             'Accept'=>'application/json',
             'Authorization'=>'Bearer william.uyasan',
             'Content-Type'=>'application/json'
         ])
-        ->post('http://192.168.1.15:8000/rotative_line/payment_plan_simulator/', [
+        ->post($host.'/rotative_line/payment_plan_simulator/', [
             'tax_number' => '80932303',
             'credit_amount' => 100000000,
             'discount_rate' => 0.03,
@@ -227,6 +231,7 @@ class Ppsimulation extends Page implements HasTable, HasForms
 
     private function requestPpsimulationApi2(){
 
+        $host = $this->host;
         $dat = $this->form->getState();
 
         if (empty($dat)) {
@@ -248,7 +253,7 @@ class Ppsimulation extends Page implements HasTable, HasForms
             'Authorization'=>'Bearer william.uyasan',
             'Content-Type'=>'application/json'
         ])
-        ->post('http://192.168.1.15:8000/rotative_line/payment_plan_simulator/', [
+        ->post($host.'/rotative_line/payment_plan_simulator/', [
             'tax_number' => $tax_number,
             'client_name' => $client_name,
             'credit_amount' => $credit_amount,
@@ -263,6 +268,8 @@ class Ppsimulation extends Page implements HasTable, HasForms
     }
 
     private function retrievePpsimulationApi($task_id){
+
+        $host = $this->host;
         
         $response = Http::withHeaders([
             'Accept'=>'application/json',
@@ -272,7 +279,7 @@ class Ppsimulation extends Page implements HasTable, HasForms
         ->withQueryParameters([
             'task_id' => $task_id
         ])
-        ->post('http://192.168.1.15:8000/rotative_line/payment_plan_simulator_callback/', []);
+        ->post($host.'/rotative_line/payment_plan_simulator_callback/', []);
 
         $res = $response->json();
 
