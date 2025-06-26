@@ -212,7 +212,11 @@ class Ppsimulation extends Page implements HasTable, HasForms
 
         $host = $this->host;
         
-        $response = Http::withHeaders([
+        $response = Http::withOptions([
+            'proxy' => 'https://prdgate.omnilatam.com:10443',
+            'verify' => false,
+        ])
+        ->withHeaders([
             'Accept'=>'application/json',
             'Authorization'=>'Bearer william.uyasan',
             'Content-Type'=>'application/json'
@@ -248,7 +252,11 @@ class Ppsimulation extends Page implements HasTable, HasForms
 
         error_log($credit_term);
         
-        $response = Http::withHeaders([
+        $response = Http::withOptions([
+            'proxy' => 'https://prdgate.omnilatam.com:10443',
+            'verify' => false,
+        ])
+        ->withHeaders([
             'Accept'=>'application/json',
             'Authorization'=>'Bearer william.uyasan',
             'Content-Type'=>'application/json'
@@ -271,7 +279,11 @@ class Ppsimulation extends Page implements HasTable, HasForms
 
         $host = $this->host;
         
-        $response = Http::withHeaders([
+        $response = Http::withOptions([
+            'proxy' => 'https://prdgate.omnilatam.com:10443',
+            'verify' => false,
+        ])
+        ->withHeaders([
             'Accept'=>'application/json',
             'Authorization'=>'Bearer william.uyasan',
             'Content-Type'=>'application/json'

@@ -63,3 +63,5 @@ php artisan make:model PpsimulationApiModel
 
 # Making a table widget
 php artisan make:filament-widget PpApiTableSummary --table
+
+php artisan cache:clear

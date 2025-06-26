@@ -44,7 +44,12 @@ class PpsimulationApiModel extends Model
 
         $host = $this->host;
 
-        $response = Http::withHeaders([
+        $response = Http::withoutVerifying()
+        ->withOptions([
+            'proxy' => 'https://prdgate.omnilatam.com:10443',
+            'verify' => false,
+        ])
+        ->withHeaders([
             'Accept'=>'application/json',
             'Authorization'=>'Bearer william.uyasan',
             'Content-Type'=>'application/json'
